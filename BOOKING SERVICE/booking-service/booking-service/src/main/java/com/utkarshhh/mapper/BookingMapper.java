@@ -14,6 +14,8 @@ public class BookingMapper {
         bookingDTO.setId(booking.getId());
         bookingDTO.setSalonId(booking.getSalonId());
         bookingDTO.setCustomerId(booking.getCustomerId());
+        bookingDTO.setCustomerName(booking.getCustomerName());
+        bookingDTO.setCustomerEmail(booking.getCustomerEmail());
         bookingDTO.setStartTime(booking.getStartTime());
         bookingDTO.setEndTime(booking.getEndTime());
         bookingDTO.setServiceIds(booking.getServiceIds());
@@ -34,6 +36,8 @@ public class BookingMapper {
         booking.setId(bookingDTO.getId());
         booking.setSalonId(bookingDTO.getSalonId());
         booking.setCustomerId(bookingDTO.getCustomerId());
+        booking.setCustomerName(bookingDTO.getCustomerName());
+        booking.setCustomerEmail(bookingDTO.getCustomerEmail());
         booking.setStartTime(bookingDTO.getStartTime());
         booking.setEndTime(bookingDTO.getEndTime());
         booking.setServiceIds(bookingDTO.getServiceIds());

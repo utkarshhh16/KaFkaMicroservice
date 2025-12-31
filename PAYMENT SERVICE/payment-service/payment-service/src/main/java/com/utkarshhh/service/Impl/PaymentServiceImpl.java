@@ -11,15 +11,14 @@ import com.stripe.net.ApiResource;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.utkarshhh.client.BookingClient;
-import com.utkarshhh.client.UserClient;
 import com.utkarshhh.domain.PaymentOrderStatus;
 import com.utkarshhh.dto.BookingDTO;
-import com.utkarshhh.dto.PaymentNotificationDTO; // ✅ NEW
+import com.utkarshhh.dto.PaymentNotificationDTO;
 import com.utkarshhh.dto.UserDTO;
 import com.utkarshhh.model.PaymentOrder;
 import com.utkarshhh.payload.response.PaymentLinkResponse;
 import com.utkarshhh.repository.PaymentOrderRepository;
-import com.utkarshhh.service.NotificationPublisher; // ✅ NEW
+import com.utkarshhh.service.NotificationPublisher;
 import com.utkarshhh.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -35,9 +34,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private BookingClient bookingClient;
-
-    @Autowired
-    private UserClient userClient;
 
     @Autowired
     private NotificationPublisher notificationPublisher;
@@ -143,7 +139,6 @@ public class PaymentServiceImpl implements PaymentService {
                     if (orderId != null && !orderId.isEmpty()) {
                         PaymentOrder paymentOrder = paymentOrderRepository.findById(new ObjectId(orderId)).orElse(null);
                         if (paymentOrder != null) {
-                            // Update payment status
                             paymentOrder.setStatus(PaymentOrderStatus.SUCCESS);
                             paymentOrderRepository.save(paymentOrder);
                             System.out.println("Payment status updated to SUCCESS");
@@ -172,14 +167,22 @@ public class PaymentServiceImpl implements PaymentService {
             BookingDTO booking = bookingClient.getBooking(paymentOrder.getBookingId().toString());
             System.out.println("   Booking fetched: " + booking.getId());
 
-            UserDTO user = userClient.getUser(booking.getCustomerId());
-            System.out.println("   User fetched: " + user.getFullName());
+            String customerEmail = booking.getCustomerEmail();
+            String customerName = booking.getCustomerName();
+
+            System.out.println("   Customer: " + customerName);
+            System.out.println("   Email: " + customerEmail);
+
+            if (customerEmail == null || customerName == null) {
+                System.err.println("Customer data is null in booking!");
+                return;
+            }
 
             PaymentNotificationDTO notification = new PaymentNotificationDTO(
                     paymentOrder.getId().toString(),
                     paymentOrder.getBookingId().toString(),
-                    user.getEmail(),
-                    user.getFullName(),
+                    customerEmail,
+                    customerName,
                     paymentOrder.getAmount().intValue(),
                     "SUCCESS",
                     paymentIntentId != null ? paymentIntentId : "N/A"

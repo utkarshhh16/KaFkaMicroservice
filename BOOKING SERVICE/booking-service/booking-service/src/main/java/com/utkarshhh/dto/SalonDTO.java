@@ -15,10 +15,10 @@ public class SalonDTO {
     private String name;
     private List<String> images;
     private String address;
-    private String phoneNumber;  // ✅ Must be phoneNumber, not phone!
+    private String phoneNumber;
     private String email;
     private String city;
-    private Long ownerId;        // ✅ Long, not ObjectId!
+    private Long ownerId;
     private LocalTime openTime;
     private LocalTime closeTime;
 }

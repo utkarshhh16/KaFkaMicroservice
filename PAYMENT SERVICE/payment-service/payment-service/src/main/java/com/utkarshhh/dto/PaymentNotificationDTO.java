@@ -27,7 +27,6 @@ public class PaymentNotificationDTO implements Serializable {
         this.transactionId = transactionId;
     }
 
-    // Getters and Setters
     public String getPaymentId() {
         return paymentId;
     }

@@ -17,7 +17,7 @@ public class NotificationPublisher {
     }
 
     public void sendBookingNotification(BookingNotificationDTO notification) {
-        System.out.println("📤 Sending booking notification to RabbitMQ...");
+        System.out.println("   Sending booking notification to RabbitMQ...");
         System.out.println("   Booking ID: " + notification.getBookingId());
         System.out.println("   Customer: " + notification.getCustomerName());
 
@@ -27,6 +27,6 @@ public class NotificationPublisher {
             notification
         );
 
-        System.out.println("✅ Booking notification sent to queue!");
+        System.out.println(" Booking notification sent to queue!");
     }
 }

@@ -15,6 +15,8 @@ public class BookingDTO {
     private ObjectId id;
     private String customerId;
     private ObjectId salonId;
+    private String customerName;
+    private String customerEmail;
     private List<ObjectId> serviceIds;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

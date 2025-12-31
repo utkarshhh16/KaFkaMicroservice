@@ -8,7 +8,7 @@ public class UserMapper {
         if (user == null) return null;
         
         UserDTO dto = new UserDTO();
-        dto.setId(user.getId());           // ← Important!
+        dto.setId(user.getId());
         dto.setFullName(user.getFullName());
         dto.setEmail(user.getEmail());
         return dto;

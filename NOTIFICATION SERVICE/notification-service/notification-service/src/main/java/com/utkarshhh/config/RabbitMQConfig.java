@@ -21,7 +21,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue bookingQueue() {
-        return new Queue(BOOKING_QUEUE, true); // durable = true
+        return new Queue(BOOKING_QUEUE, true);
     }
 
     @Bean

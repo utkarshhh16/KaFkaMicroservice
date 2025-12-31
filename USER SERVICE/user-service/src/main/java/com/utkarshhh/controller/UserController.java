@@ -20,7 +20,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
         try {
-            // ✅ Directly use String id (Keycloak UUID)
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -55,7 +54,6 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @RequestBody UserDTO userDTO) {
         try {
-            // ✅ Directly use String id
             User existingUser = userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -74,7 +72,6 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id) {
         try {
-            // ✅ Directly use String id
             userRepository.deleteById(id);
             return ResponseEntity.ok("User deleted successfully");
         } catch (Exception e) {
@@ -84,7 +81,7 @@ public class UserController {
 
     private UserDTO convertToDTO(User user) {
         UserDTO dto = new UserDTO();
-        dto.setId(user.getId()); // ✅ id is String now
+        dto.setId(user.getId());
         dto.setFullName(user.getFullName());
         dto.setEmail(user.getEmail());
         dto.setPhone(user.getPhone());
@@ -95,7 +92,7 @@ public class UserController {
     private User convertToEntity(UserDTO dto) {
         User user = new User();
         if (dto.getId() != null) {
-            user.setId(dto.getId()); // ✅ id is String now
+            user.setId(dto.getId());
         }
         user.setFullName(dto.getFullName());
         user.setEmail(dto.getEmail());

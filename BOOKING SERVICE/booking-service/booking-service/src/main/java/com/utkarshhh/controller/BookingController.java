@@ -9,9 +9,9 @@ import com.utkarshhh.dto.BookingRequest;
 import com.utkarshhh.dto.SalonDTO;
 import com.utkarshhh.dto.ServiceDTO;
 import com.utkarshhh.dto.UserDTO;
-import com.utkarshhh.dto.BookingNotificationDTO;  // ✅ Add this import
+import com.utkarshhh.dto.BookingNotificationDTO;
 import com.utkarshhh.mapper.BookingMapper;
-import com.utkarshhh.service.NotificationPublisher;  // ✅ Add this import
+import com.utkarshhh.service.NotificationPublisher;
 import com.utkarshhh.model.Booking;
 import com.utkarshhh.model.SalonReport;
 import com.utkarshhh.repository.BookingRepository;
@@ -61,13 +61,13 @@ public class BookingController {
             @RequestHeader("User-Email") String userEmail) {
 
         try {
-            System.out.println("📝 Creating booking with:");
+            System.out.println("   Creating booking with:");
             System.out.println("   User-Id: " + userId);
             System.out.println("   User-Name: " + userName);
             System.out.println("   User-Email: " + userEmail);
 
             UserDTO userDTO = new UserDTO();
-            userDTO.setId(userId);  // Store UUID directly
+            userDTO.setId(userId);
             userDTO.setFullName(userName);
             userDTO.setEmail(userEmail);
 
@@ -82,6 +82,9 @@ public class BookingController {
             Booking booking = new Booking();
             booking.setStartTime(bookingRequest.getStartTime());
             booking.setPaymentMethod(bookingRequest.getPaymentMethod());
+            booking.setCustomerId(userId);
+            booking.setCustomerName(userName);
+            booking.setCustomerEmail(userEmail);
 
             Booking createdBooking = bookingService.createBooking(booking, userDTO, salonDTO, serviceDTOSet);
 
@@ -101,9 +104,9 @@ public class BookingController {
                 );
 
                 notificationPublisher.sendBookingNotification(notification);
-                System.out.println("✅ Notification sent!");
+                System.out.println("Notification sent!");
             } catch (Exception e) {
-                System.err.println("⚠️ Notification failed: " + e.getMessage());
+                System.err.println("Notification failed: " + e.getMessage());
             }
 
             return ResponseEntity.status(HttpStatus.CREATED).body(createdBooking);
